@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Platform, AsyncStorage } from 'react-native';
+import {
+  ImageBackground,
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  AsyncStorage,
+} from 'react-native';
 import { Focus } from './src/features/focus/Focus';
 import { FocusHistory } from './src/features/focus/FocusHistory';
 import { Timer } from './src/features/timer/Timer';
@@ -15,7 +22,10 @@ export default function App() {
   const [focusHistory, setFocusHistory] = useState([]);
 
   const addFocusHistorySubjectWithStatus = (subject, status) => {
-    setFocusHistory([...focusHistory, { key: String(focusHistory.length + 1), subject, status }]);
+    setFocusHistory([
+      ...focusHistory,
+      { key: String(focusHistory.length + 1), subject, status },
+    ]);
   };
   const onClear = () => {
     setFocusHistory([]);
@@ -50,26 +60,34 @@ export default function App() {
   }, [focusHistory]);
 
   return (
-    <View style={styles.container}>
-      {focusSubject ? (
-        <Timer
-          focusSubject={focusSubject}
-          onTimerEnd={() => {
-            addFocusHistorySubjectWithStatus(focusSubject, STATUSES.COMPLETE);
-            setFocusSubject(null);
-          }}
-          clearSubject={() => {
-            addFocusHistorySubjectWithStatus(focusSubject, STATUSES.CANCELLED);
-            setFocusSubject(null);
-          }}
-        />
-      ) : (
-        <View style={{ flex: 1 }}>
-          <Focus addSubject={setFocusSubject} />
-          <FocusHistory focusHistory={focusHistory} onClear={onClear} />
-        </View>
-      )}
-    </View>
+    <ImageBackground
+      source={require('./src/imgs/bg.jpg')}
+      resizeMode="cover"
+      style={styles.image}>
+      <View style={styles.container}>
+        {focusSubject ? (
+          <Timer
+            focusSubject={focusSubject}
+            onTimerEnd={() => {
+              addFocusHistorySubjectWithStatus(focusSubject, STATUSES.COMPLETE);
+              setFocusSubject(null);
+            }}
+            clearSubject={() => {
+              addFocusHistorySubjectWithStatus(
+                focusSubject,
+                STATUSES.CANCELLED
+              );
+              setFocusSubject(null);
+            }}
+          />
+        ) : (
+          <View style={{ flex: 1 }}>
+            <Focus addSubject={setFocusSubject} />
+            <FocusHistory focusHistory={focusHistory} onClear={onClear} />
+          </View>
+        )}
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -77,6 +95,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS !== 'ios' ? spacing.md : spacing.lg,
-    backgroundColor: colors.darkBlue,
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

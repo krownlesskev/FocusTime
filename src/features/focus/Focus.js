@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: 'bold',
     fontSize: fontSizes.lg,
-    textAlign: 'center'
+    textAlign: 'center',
+
   },
   inputContainer: {
     paddingTop: spacing.md,
